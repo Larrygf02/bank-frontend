@@ -8,10 +8,12 @@ function App() {
   return (  
     <BrowserRouter>
       <Navbar></Navbar>
-      <Switch>
-        <Route exact path="/personas" component={Personas}></Route>
-        <Route exact path="/cuentas" component={Cuentas}></Route>
-      </Switch>
+      <div className="container">
+        <Switch>
+          <Route exact path="/personas" component={Personas}></Route>
+          <Route exact path="/cuentas" component={Cuentas}></Route>
+        </Switch>
+      </div>
     </BrowserRouter>
 
   );
