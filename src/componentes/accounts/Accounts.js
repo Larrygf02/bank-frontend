@@ -1,11 +1,11 @@
 import React from 'react';
 
-function Cuentas(props) {
+function Accounts(props) {
     return (
         <div>
-            Cuentas
+            Accounts
         </div>
     );
 }
 
-export default Cuentas;
+export default Accounts;

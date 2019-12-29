@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios'
+import Person from './Person'
 
-const Personas = () => {
+const Persons = () => {
     const [ persons, savePersons ] = useState([])
-    //const [ recargarPersonas, guardarRecargarPersonas ] = useState(true)
+    //const [ recargarPersons, guardarRecargarPersons ] = useState(true)
     useEffect(() => {
         const getPersons = async () => {
             const result = await axios.get('http://localhost:4000/api/persons/')
@@ -20,16 +21,12 @@ const Personas = () => {
                     <th scope="col">Apellidos</th>
                     <th scope="col">DNI</th>
                     <th scope="col">Fecha Nacimiento</th>
+                    <th scope="col">Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
                     {persons.map(person => (
-                        <tr key={person.id}>
-                            <td>{person.name}</td>
-                            <td>{person.surname}</td>
-                            <td>{person.dni}</td>
-                            <td>{person.birth_date}</td>
-                        </tr>
+                        <Person person={person}></Person>
                     ))}
                 </tbody>
             </table> 
@@ -37,4 +34,4 @@ const Personas = () => {
     );
 }
 
-export default Personas;
+export default Persons;
