@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 class Navbar extends Component {
     render() {
         return (
-<nav className="navbar navbar-expand-lg navbar-dark bg-primary">
+<nav className="navbar navbar-expand-lg navbar-dark bg-primary mb-5">
   <nav className="navbar navbar-light">
       <span className="navbar-brand mb-0 h1">
           Administracion del Banco
