@@ -1,5 +1,6 @@
 import React, { Component, useState } from 'react';
 import { Link } from 'react-router-dom'
+import axios from 'axios';
 
 
 const NewPerson = ({history}) =>  {
@@ -10,9 +11,23 @@ const NewPerson = ({history}) =>  {
     const [ date, saveDate] = useState('')
 
     // Agregar una nueva persona
-    const submitNewPerson = e => {
+    const submitNewPerson = async e => {
         e.preventDefault();
-        
+        try {
+            const response = await axios.post('http://localhost:4000/api/persons', {
+                name,
+                surname,
+                dni,
+                birth_date: date
+            })
+            console.log(response);
+            if (response.status === 200) {
+                console.log('Creado correctamente');
+                history.push('/personas')
+            }
+        } catch(error) {
+            console.log(error);
+        }
     }
 
     return (
@@ -63,7 +78,8 @@ const NewPerson = ({history}) =>  {
                                 <input 
                                     type="date"
                                     className="form-control"
-                                    placeholder="Fecha Nacimiento"/>
+                                    placeholder="Fecha Nacimiento"
+                                    onChange={ e => saveDate(e.target.value)}/>
                             </div>
                             <input type="submit" value="Agregar persona" className="btn btn-success"/>
                         </form>
