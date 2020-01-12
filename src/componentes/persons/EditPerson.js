@@ -1,16 +1,17 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import axios from 'axios';
+import { withRouter } from 'react-router-dom'
 
 const EditPerson = ({ history, person}) => {
-
+    console.log(person)
     //creacion de los refs para la edicion
     const nameRef = useRef('')
     const surnameRef = useRef('')
     const dniRef = useRef('')
     const dateRef = useRef('')
+
     const formatDate = date => {
         let sd = date.split("-")
-        console.log( `${sd[2]}/${sd[1]}/${sd[0]}`);
         return `${sd[2]}/${sd[1]}/${sd[0]}`
     }
     const submitEditPerson = async e => {
@@ -20,7 +21,7 @@ const EditPerson = ({ history, person}) => {
         const surname = surnameRef.current.value
         const dni = dniRef.current.value
         const date = dateRef.current.value
-        if (name === '' || surname === '' || dni === '') {
+        if (name === '' || surname === '' || dni === '' || date === '') {
             alert('Completar datos')
             return;
         }
@@ -31,7 +32,7 @@ const EditPerson = ({ history, person}) => {
             date
         }
         const response = await axios.patch(`http://localhost:4000/api/persons/${person.id}`, newPerson)
-        if (response.status == 200) {
+        if (response.status === 200) {
             console.log('Editado correctamente');
         }
         history.push('/personas')
@@ -75,7 +76,7 @@ const EditPerson = ({ history, person}) => {
                         type="date"
                         className="form-control"
                         placeholder="Fecha Nacimiento"
-                        defaultValue={formatDate(person.birth_date)}
+                        defaultValue={person.birth_date}
                         ref={dateRef}/>
                 </div>
                 <input type="submit" value="Agregar persona" className="btn btn-success"/>
@@ -84,4 +85,4 @@ const EditPerson = ({ history, person}) => {
     );
 }
 
-export default EditPerson;
+export default withRouter(EditPerson);
