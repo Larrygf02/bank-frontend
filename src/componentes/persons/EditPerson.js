@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 
-const EditPerson = ({match, history, person}) => {
+const EditPerson = ({ history, person}) => {
 
     //creacion de los refs para la edicion
     const nameRef = useRef('')
@@ -13,14 +13,14 @@ const EditPerson = ({match, history, person}) => {
         console.log( `${sd[2]}/${sd[1]}/${sd[0]}`);
         return `${sd[2]}/${sd[1]}/${sd[0]}`
     }
-    const submitEditPerson = e => {
+    const submitEditPerson = async e => {
         e.preventDefault()
         //validar formulario
         const name = nameRef.current.value
         const surname = surnameRef.current.value
         const dni = dniRef.current.value
         const date = dateRef.current.value
-        if (name === '' || surname === '' || dni === '' || date === '') {
+        if (name === '' || surname === '' || dni === '') {
             alert('Completar datos')
             return;
         }
@@ -30,7 +30,12 @@ const EditPerson = ({match, history, person}) => {
             dni,
             date
         }
-        console.log(newPerson)
+        const response = await axios.patch(`http://localhost:4000/api/persons/${person.id}`, newPerson)
+        if (response.status == 200) {
+            console.log('Editado correctamente');
+        }
+        history.push('/personas')
+
     }
     if (!person) return 'Cargando ...'
     return (
