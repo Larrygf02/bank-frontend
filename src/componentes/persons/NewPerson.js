@@ -1,9 +1,10 @@
-import React, { Component, useState } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom'
 import axios from 'axios';
+import { withRouter } from 'react-router-dom'
 
 
-const NewPerson = ({history}) =>  {
+const NewPerson = ({history, saveRefresh}) =>  {
     // state
     const [ name, saveName ] = useState('')
     const [ surname, saveSurname ] = useState('')
@@ -20,9 +21,8 @@ const NewPerson = ({history}) =>  {
                 dni,
                 birth_date: date
             })
-            console.log(response);
             if (response.status === 200) {
-                console.log('Creado correctamente');
+                saveRefresh(true)
                 history.push('/personas')
             }
         } catch(error) {
@@ -90,4 +90,4 @@ const NewPerson = ({history}) =>  {
     );
 }
 
-export default NewPerson;
+export default withRouter(NewPerson);

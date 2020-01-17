@@ -1,18 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom'
-import axios from 'axios'
 import Person from './Person'
 
-const Persons = () => {
-    const [ persons, savePersons ] = useState([])
-    //const [ recargarPersons, guardarRecargarPersons ] = useState(true)
-    useEffect(() => {
-        const getPersons = async () => {
-            const result = await axios.get('http://localhost:4000/api/persons/')
-            savePersons(result.data.data)
-        }
-        getPersons()
-    }, [])
+const Persons = ({persons, saveRefresh}) => {
     return (
         <div className="row">
             <div className="col-md-8 mb-2">
@@ -39,7 +29,9 @@ const Persons = () => {
                 </thead>
                 <tbody>
                     {persons.map(person => (
-                        <Person key={person.id} person={person}></Person>
+                        <Person key={person.id} 
+                        person={person} 
+                        saveRefresh={saveRefresh}></Person>
                     ))}
                 </tbody>
             </table> 

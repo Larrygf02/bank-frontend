@@ -9,25 +9,33 @@ import axios from 'axios'
 
 function App() {
   const [ persons, savePersons ] = useState([])
+  const [ refresh, saveRefresh ] = useState(true)
   useEffect(() => {
-    const getPersons = async () => {
-      const result = await axios.get('http://localhost:4000/api/persons/')
-      savePersons(result.data.data)
+    if (refresh) {
+      const getPersons = async () => {
+        const result = await axios.get('http://localhost:4000/api/persons/')
+        savePersons(result.data.data)
+      }
+      getPersons()
+      saveRefresh(false)
     }
-    getPersons()
-  },[])
+  },[refresh])
   return (  
     <BrowserRouter>
       <Navbar></Navbar>
       <div className="container">
         <Switch>
-          <Route exact path="/personas" component={Persons}></Route>
-          <Route exact path="/persona/nuevo" component={NewPerson}></Route>
+          <Route exact path="/personas" render={() => (
+            <Persons persons={persons} saveRefresh={saveRefresh}/>
+          )}></Route>
+          <Route exact path="/persona/nuevo" render={() => (
+            <NewPerson saveRefresh={saveRefresh}/>
+          )}></Route>
           <Route exact path="/persona/editar/:id" render={props =>{
             const idPerson = parseInt(props.match.params.id);
             const person = persons.filter(per => per.id === idPerson)
             return (
-              <EditPerson person={person[0]}/>
+              <EditPerson person={person[0]} saveRefresh={saveRefresh}/>
             )
           }}></Route>
           <Route exact path="/cuentas" component={Accounts}></Route>

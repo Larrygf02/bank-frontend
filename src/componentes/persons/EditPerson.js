@@ -2,18 +2,13 @@ import React, { useRef } from 'react';
 import axios from 'axios';
 import { withRouter } from 'react-router-dom'
 
-const EditPerson = ({ history, person}) => {
-    console.log(person)
+const EditPerson = ({ history, person, saveRefresh}) => {
     //creacion de los refs para la edicion
     const nameRef = useRef('')
     const surnameRef = useRef('')
     const dniRef = useRef('')
     const dateRef = useRef('')
 
-    const formatDate = date => {
-        let sd = date.split("-")
-        return `${sd[2]}/${sd[1]}/${sd[0]}`
-    }
     const submitEditPerson = async e => {
         e.preventDefault()
         //validar formulario
@@ -34,6 +29,7 @@ const EditPerson = ({ history, person}) => {
         const response = await axios.patch(`http://localhost:4000/api/persons/${person.id}`, newPerson)
         if (response.status === 200) {
             console.log('Editado correctamente');
+            saveRefresh(true)
         }
         history.push('/personas')
 

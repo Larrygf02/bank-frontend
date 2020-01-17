@@ -2,10 +2,12 @@ import React from 'react';
 import { Link } from 'react-router-dom'
 import axios from 'axios';
 
-function Person({person}) {
+function Person({person, saveRefresh}) {
     const deletePerson = async id => {
         const response = await axios.delete(`http://localhost:4000/api/persons/${person.id}`)
-        console.log(response)
+        if (response.status === 200) {
+            saveRefresh(true)
+        }
     }
 
     return (
